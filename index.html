@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    
+</head>
+<body>
+    <div id="buttondroparea"></div>
+    <div id="gifdrop"></div>
+
+    <label for="text">addasearch</label>
+    <input type ="text">
+    <input id="submit" type="submit">
+    
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+var List = [];
+
+//att text and etc
+
+$("#submit").on("click", function(event){
+        event.preventDefault();
+        var name= $("#text").val()
+        List.push(name);
+    
+
+
+function buttonrender (){
+//create button
+$("#buttondroparea").empty();
+for (i=0; i<List.length; i++){
+    var mybuttons = $("<button>");
+    mybuttons.addClass("buttonlots");
+    mybuttons.attr("data-name",List[i]);
+    mybuttons.text(List[i]);
+    $("buttondroparea").append(mybuttons);
+
+}
+};
+
+function displayinfomation(){
+    var name = $(this).attr("data-name");
+    var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=mdDZOPoRKT9FuzhF7KPyLOeUAkNSZnHD&limit=5";
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).done(function(response) {
+
+        var gifDiv = $("<div class='gif'>");
+        var url= response.Url;
+
+
+    }
+}
+
+</script>
+</html>
