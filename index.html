@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Giphy</title>
+</head>
+
+<body>
+
+
+  <form id="giphy-form">
+
+
+    <label for="giphy-input">Search A Giphy</label>
+
+
+    <input type="text" id="giphy-input"><br>
+
+
+    <input id="select-giphy" type="submit" value="Search">
+  </form>
+
+
+  <div id="giphy-div"></div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  function searchgiphy(giphy) {
+
+    // Querying
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+        giphy + "&api_key=dc6zaTOxFJmzC&limit=10";
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+    }).done(function(response) {
+
+      var results = response.data;
+
+      for (var i = 0; i < results.length; i++) {
+      if(results[i].rating !== "pg"){
+
+      // Construct HTML 
+      var gifDiv= $("<div>");
+  
+      var giphyName = $("<h1>").text(results[i].slug);
+      var giphyURL = $("<a>").attr("href", results[i].url).append(giphyName);
+      var giphyImage = $("<img>").attr("src", results[i].images.fixed_height.url);
+
+      var giphysource = $("<a>").attr("href", results[i].url).text("Source");
+
+      // Empty , append the contents of div
+
+      gifDiv.append(giphyName);
+      gifDiv.append(giphyImage);
+      gifDiv.append(giphysource);
+      
+      $("#giphy-div").prepend(gifDiv);
+      }
+      }
+  
+
+    });
+  }
+
+  // Event handler for user clicking the select button
+  $("#select-giphy").on("click", function(event) {
+    // Preventing the button from trying to submit the form
+    event.preventDefault();
+    // Store
+    var inputgiphy = $("#giphy-input").val().trim();
+
+    // Running the function
+    searchgiphy(inputgiphy);
+  });
+
+  
+</script>
+
+</html>
